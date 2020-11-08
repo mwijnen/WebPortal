@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\WebPortal.csproj": {}
+    "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\WebPortal.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\WebPortal.csproj": {
+    "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\WebPortal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\WebPortal.csproj",
+        "projectUniqueName": "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\WebPortal.csproj",
         "projectName": "WebPortal",
-        "projectPath": "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\WebPortal.csproj",
+        "projectPath": "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\WebPortal.csproj",
         "packagesPath": "C:\\Users\\marce\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\obj\\",
+        "outputPath": "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

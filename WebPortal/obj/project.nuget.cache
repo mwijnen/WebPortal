@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TKU7mJBn/bDIuliKUjO3CzLjo1c0JPu8f8ewvd3Cj10s0VpvrV43F1rwlPHLzx2ntxDAz3nnDcRc2XDWK4bN0A==",
+  "dgSpecHash": "BnN3kmY7BFL1yjvmlNK7vXHrv7XFAu+q46yWelR3Y6EpDy1BE707e9C6wce1ndzoGf0t4lhFkqBY4N6ZYMtWSA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\marce\\Desktop\\WebPortal\\WebPortal\\WebPortal.csproj",
+  "projectFilePath": "C:\\Users\\marce\\Desktop\\code\\WebPortal\\WebPortal\\WebPortal.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
