@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Glimpse.AspNet.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebPortal.Controllers
 {
@@ -10,7 +11,9 @@ namespace WebPortal.Controllers
     {
         public IActionResult Index()
         {
+            var routes = this.RouteData.Routers.OfType<RouteCollection>().FirstOrDefault();
             return View();
         }
     }
 }
+
