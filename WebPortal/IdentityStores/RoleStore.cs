@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebPortal.Data
+namespace WebPortal.IdentityStores
 {
     public class RoleStore : IRoleStore<IdentityRole>
     {

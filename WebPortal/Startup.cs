@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApp.Services;
-using WebPortal.Data;
+using WebPortal.Databases;
+using WebPortal.IdentityStores;
 
 namespace WebPortal
 {
@@ -18,10 +19,10 @@ namespace WebPortal
             services.AddTransient<IUserStore<IdentityUser>, UserStore>();
             services.AddTransient<IRoleStore<IdentityRole>, RoleStore>();
 
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddDefaultTokenProviders();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddDefaultTokenProviders();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true);
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true);
             services.AddRazorPages();
 
             // Add application services.
@@ -48,6 +49,9 @@ namespace WebPortal
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            IDatabaseBuilder databaseBuilder = new SqlServerDatabaseBuilder();
+            databaseBuilder.CreateDatabase();
         }
     }
 }
