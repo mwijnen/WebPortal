@@ -33,3 +33,4 @@ msbuild.wrn
 
 # Configuration
 appsettings.json
+App.config

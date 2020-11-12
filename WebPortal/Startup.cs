@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApp.Services;
-using WebPortal.Databases;
 using WebPortal.IdentityStores;
 
 namespace WebPortal
@@ -32,7 +32,7 @@ namespace WebPortal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
         {
             if (env.IsDevelopment())
             {
@@ -49,9 +49,6 @@ namespace WebPortal
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            IDatabaseBuilder databaseBuilder = new SqlServerDatabaseBuilder();
-            databaseBuilder.CreateDatabase();
         }
     }
 }

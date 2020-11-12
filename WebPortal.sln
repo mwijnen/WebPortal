@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPortal", "WebPortal\WebPortal.csproj", "{E2211CB2-5F2B-4F7B-BFBE-F69B6A9D63F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebPortal", "WebPortal\WebPortal.csproj", "{E2211CB2-5F2B-4F7B-BFBE-F69B6A9D63F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseBuilder", "DatabaseBuilder\DatabaseBuilder.csproj", "{2D206240-A66A-4609-AD26-56BF13A4D9A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E2211CB2-5F2B-4F7B-BFBE-F69B6A9D63F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2211CB2-5F2B-4F7B-BFBE-F69B6A9D63F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2211CB2-5F2B-4F7B-BFBE-F69B6A9D63F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D206240-A66A-4609-AD26-56BF13A4D9A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D206240-A66A-4609-AD26-56BF13A4D9A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D206240-A66A-4609-AD26-56BF13A4D9A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D206240-A66A-4609-AD26-56BF13A4D9A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
