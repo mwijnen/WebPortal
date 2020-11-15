@@ -1,0 +1,22 @@
+﻿@model Registration
+
+
+<div style="margin-top:100px;margin-left:100px;margin-right:100px;">
+    <form asp-controller="Account" asp-action="Register" method="post" class="form-group">
+
+        <div class="form-group row">
+            <input asp-for=@Model.Email type="text" class="form-control" placeholder="Email" />
+        </div>
+
+        <div class="form-group row">
+            <input asp-for=@Model.Password type="password" class="form-control" placeholder="Password" />
+        </div>
+
+        <div class="form-group row">
+            <input asp-for=@Model.RetypedPassword type="password" class="form-control" placeholder="Retype password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+

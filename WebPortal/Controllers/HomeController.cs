@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using System.Linq;
 
 namespace WebPortal.Controllers
 {
@@ -8,7 +6,6 @@ namespace WebPortal.Controllers
     {
         public IActionResult Index()
         {
-            var routes = this.RouteData.Routers.OfType<RouteCollection>().FirstOrDefault();
             return View();
         }
     }

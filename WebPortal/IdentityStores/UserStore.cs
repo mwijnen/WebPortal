@@ -1,77 +1,39 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebPortal.Repositories;
 
 namespace WebPortal.IdentityStores
 {
     public class UserStore : IUserStore<IdentityUser>, IUserEmailStore<IdentityUser>, IUserPhoneNumberStore<IdentityUser>,
         IUserTwoFactorStore<IdentityUser>, IUserPasswordStore<IdentityUser>, IUserRoleStore<IdentityUser>
     {
-        private readonly string _connectionString;
+        private readonly IIdentityRepository _repository;
 
-        public UserStore(IConfiguration configuration)
+        public UserStore(IIdentityRepository repository)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _repository = repository;
         }
 
         public async Task<IdentityResult> CreateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                user.Id = await connection.QuerySingleAsync<string>($@"INSERT INTO [ApplicationUser] ([UserName], [NormalizedUserName], [Email],
-                    [NormalizedEmail], [EmailConfirmed], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled])
-                    VALUES (@{nameof(IdentityUser.UserName)}, @{nameof(IdentityUser.NormalizedUserName)}, @{nameof(IdentityUser.Email)},
-                    @{nameof(IdentityUser.NormalizedEmail)}, @{nameof(IdentityUser.EmailConfirmed)}, @{nameof(IdentityUser.PasswordHash)},
-                    @{nameof(IdentityUser.PhoneNumber)}, @{nameof(IdentityUser.PhoneNumberConfirmed)}, @{nameof(IdentityUser.TwoFactorEnabled)});
-                    SELECT CAST(SCOPE_IDENTITY() as int)", user);
-            }
-
-            return IdentityResult.Success;
+            return await _repository.CreateAsync(user, cancellationToken);
         }
 
         public async Task<IdentityResult> DeleteAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                await connection.ExecuteAsync($"DELETE FROM [ApplicationUser] WHERE [Id] = @{nameof(IdentityUser.Id)}", user);
-            }
-
-            return IdentityResult.Success;
+            return await _repository.DeleteAsync(user, cancellationToken);
         }
 
         public async Task<IdentityUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                return await connection.QuerySingleOrDefaultAsync<IdentityUser>($@"select * from [applicationuser]
-                    where [id] = @{nameof(userId)}", new { userId });
-            }
+            return await _repository.FindByIdAsync(userId, cancellationToken);
         }
 
         public async Task<IdentityUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                return await connection.QuerySingleOrDefaultAsync<IdentityUser>($@"SELECT * FROM [ApplicationUser]
-                    WHERE [NormalizedUserName] = @{nameof(normalizedUserName)}", new { normalizedUserName });
-            }
+            return await _repository.FindByNameAsync(normalizedUserName, cancellationToken);
         }
 
         public Task<string> GetNormalizedUserNameAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -103,25 +65,7 @@ namespace WebPortal.IdentityStores
 
         public async Task<IdentityResult> UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                await connection.ExecuteAsync($@"UPDATE [ApplicationUser] SET
-                    [UserName] = @{nameof(IdentityUser.UserName)},
-                    [NormalizedUserName] = @{nameof(IdentityUser.NormalizedUserName)},
-                    [Email] = @{nameof(IdentityUser.Email)},
-                    [NormalizedEmail] = @{nameof(IdentityUser.NormalizedEmail)},
-                    [EmailConfirmed] = @{nameof(IdentityUser.EmailConfirmed)},
-                    [PasswordHash] = @{nameof(IdentityUser.PasswordHash)},
-                    [PhoneNumber] = @{nameof(IdentityUser.PhoneNumber)},
-                    [PhoneNumberConfirmed] = @{nameof(IdentityUser.PhoneNumberConfirmed)},
-                    [TwoFactorEnabled] = @{nameof(IdentityUser.TwoFactorEnabled)}
-                    WHERE [Id] = @{nameof(IdentityUser.Id)}", user);
-            }
-
-            return IdentityResult.Success;
+            return await _repository.UpdateAsync(user, cancellationToken);
         }
 
         public Task SetEmailAsync(IdentityUser user, string email, CancellationToken cancellationToken)
@@ -148,14 +92,7 @@ namespace WebPortal.IdentityStores
 
         public async Task<IdentityUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                return await connection.QuerySingleOrDefaultAsync<IdentityUser>($@"SELECT * FROM [ApplicationUser]
-                    WHERE [NormalizedEmail] = @{nameof(normalizedEmail)}", new { normalizedEmail });
-            }
+            return await _repository.FindByEmailAsync(normalizedEmail, cancellationToken);
         }
 
         public Task<string> GetNormalizedEmailAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -220,77 +157,27 @@ namespace WebPortal.IdentityStores
 
         public async Task AddToRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                var normalizedName = roleName.ToUpper();
-                var roleId = await connection.ExecuteScalarAsync<int?>($"SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @{nameof(normalizedName)}", new { normalizedName });
-                if (!roleId.HasValue)
-                    roleId = await connection.ExecuteAsync($"INSERT INTO [ApplicationRole]([Name], [NormalizedName]) VALUES(@{nameof(roleName)}, @{nameof(normalizedName)})",
-                        new { roleName, normalizedName });
-
-                await connection.ExecuteAsync($"IF NOT EXISTS(SELECT 1 FROM [ApplicationUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}) " +
-                    $"INSERT INTO [ApplicationUserRole]([UserId], [RoleId]) VALUES(@userId, @{nameof(roleId)})",
-                    new { userId = user.Id, roleId });
-            }
+            await _repository.AddToRoleAsync(user, roleName, cancellationToken);
         }
 
         public async Task RemoveFromRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
-                if (!roleId.HasValue)
-                    await connection.ExecuteAsync($"DELETE FROM [ApplicationUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}", new { userId = user.Id, roleId });
-            }
+            await _repository.RemoveFromRoleAsync(user, roleName, cancellationToken);
         }
 
         public async Task<IList<string>> GetRolesAsync(IdentityUser user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync(cancellationToken);
-                var queryResults = await connection.QueryAsync<string>("SELECT r.[Name] FROM [ApplicationRole] r INNER JOIN [ApplicationUserRole] ur ON ur.[RoleId] = r.Id " +
-                    "WHERE ur.UserId = @userId", new { userId = user.Id });
-
-                return queryResults.ToList();
-            }
+            return await _repository.GetRolesAsync(user, cancellationToken);
         }
 
         public async Task<bool> IsInRoleAsync(IdentityUser user, string roleName, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var roleId = await connection.ExecuteScalarAsync<int?>("SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @normalizedName", new { normalizedName = roleName.ToUpper() });
-                if (roleId == default(int)) return false;
-                var matchingRoles = await connection.ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM [ApplicationUserRole] WHERE [UserId] = @userId AND [RoleId] = @{nameof(roleId)}",
-                    new { userId = user.Id, roleId });
-
-                return matchingRoles > 0;
-            }
+            return await _repository.IsInRoleAsync(user, roleName, cancellationToken);
         }
 
         public async Task<IList<IdentityUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var queryResults = await connection.QueryAsync<IdentityUser>("SELECT u.* FROM [ApplicationUser] u " +
-                    "INNER JOIN [ApplicationUserRole] ur ON ur.[UserId] = u.[Id] INNER JOIN [ApplicationRole] r ON r.[Id] = ur.[RoleId] WHERE r.[NormalizedName] = @normalizedName",
-                    new { normalizedName = roleName.ToUpper() });
-
-                return queryResults.ToList();
-            }
+            return await _repository.GetUsersInRoleAsync(roleName, cancellationToken);
         }
 
         public void Dispose()

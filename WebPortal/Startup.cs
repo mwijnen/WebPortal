@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApp.Services;
 using WebPortal.IdentityStores;
+using WebPortal.Repositories;
 
 namespace WebPortal
 {
@@ -18,7 +19,8 @@ namespace WebPortal
         {
             services.AddTransient<IUserStore<IdentityUser>, UserStore>();
             services.AddTransient<IRoleStore<IdentityRole>, RoleStore>();
-
+            services.AddTransient<IIdentityRepository, IdentityRepository>();
+            services.AddTransient<IEmailServer, EmailServer>();
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders();
 
@@ -26,7 +28,7 @@ namespace WebPortal
             services.AddRazorPages();
 
             // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailServer, EmailServer>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
         }
