@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "BuildBundlerMinifier": {
+              "target": "Package",
+              "version": "[3.2.449, )"
+            },
             "Dapper": {
               "target": "Package",
               "version": "[2.0.35, )"
@@ -56,6 +60,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.2, )"
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[4.5.3, )"
             }
           },
           "imports": [
