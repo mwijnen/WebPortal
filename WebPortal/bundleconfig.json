@@ -14,6 +14,17 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery-3.5.1-min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/site/js/site.js"
