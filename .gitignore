@@ -34,3 +34,7 @@ msbuild.wrn
 # Configuration
 appsettings.json
 App.config
+
+# Assets
+WebPortal/wwwroot/css/*.min.css
+WebPortal/wwwroot/js/*.min.js
