@@ -60,10 +60,6 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.2, )"
-            },
-            "bootstrap": {
-              "target": "Package",
-              "version": "[4.5.3, )"
             }
           },
           "imports": [

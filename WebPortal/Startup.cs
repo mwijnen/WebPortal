@@ -41,7 +41,7 @@ namespace WebPortal
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 
